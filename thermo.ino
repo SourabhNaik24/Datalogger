@@ -1,16 +1,21 @@
 #include <Adafruit_MAX31856.h>
 // For the Adafruit shield, these are the default.
-#define TC_CS PA6
+#define TC_CS PA4
 #define TFT_MOSI PA7
 #define TFT_CLK PA5
-#define TFT_MISO PA4
+#define TFT_MISO PA6
 // Use software SPI: CS, DI, DO, CLK
 
-Adafruit_MAX31856 maxthermo = Adafruit_MAX31856(TC_CS, TFT_MOSI, TFT_MISO, TFT_CLK);
+//Adafruit_MAX31856 maxthermo = Adafruit_MAX31856(TC_CS, TFT_MOSI, TFT_MISO, TFT_CLK);
+Adafruit_MAX31856 maxthermo = Adafruit_MAX31856(TC_CS);
 
 void setThermo() {
   maxthermo.begin();
+  
+
   maxthermo.setThermocoupleType(MAX31856_TCTYPE_K);
+  pinMode(TC_CS, OUTPUT);
+  digitalWrite(TC_CS,HIGH);
 }
 void getThermoType() {
   Serial.print("Thermocouple type: ");
@@ -30,10 +35,12 @@ void getThermoType() {
 }
 
 float readCJTemp() {
+  digitalWrite(TC_CS,LOW);
   float CJTemp = 0;
   Serial.print("Cold Junction Temp: ");
   Serial.println(maxthermo.readCJTemperature());
   CJTemp = maxthermo.readCJTemperature();
+  digitalWrite(TC_CS,HIGH);
   return CJTemp;
 }
 

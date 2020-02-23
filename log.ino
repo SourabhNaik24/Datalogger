@@ -1,7 +1,7 @@
 #include <SPI.h>
 #include <SD.h>
 
-#define SD_CS PA12
+#define SD_CS PB0
 
 void setLog(){
   if (!SD.begin(SD_CS)) {

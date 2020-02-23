@@ -1,6 +1,7 @@
 #include "thermo.h"
 #include "lcd.h"
 #include "rtd.h"
+#include "log.h"
 
 // RTD variables
 float rtdTemp = 0;
@@ -11,18 +12,25 @@ float thermoTemp = 0;
 
 
 void setup() {
-  Serial.begin(115200);
-  setLCD();
-  setThermo();
+  Serial.begin(9600);
+  //setLCD();
+  setLog();
+  delay(500);
+  //setThermo();
   setRTD();
+  delay(500);
+ 
 }
 
 void loop() {
   rtdTemp = readRtdTemp();
   rtdRes =  readRtdRes();
-  thermoTemp =  (readThermoTemp() - readCJTemp());
-  dispRTD(rtdTemp,rtdRes);
-  dispThermo(thermoTemp);
-  delay(500);
+  //testing thermo
+ 
+  //thermoTemp =  (readThermoTemp() - readCJTemp());
+  //dispRTD(rtdTemp,rtdRes);
+  //dispThermo(thermoTemp);
+  dataLog(rtdTemp, rtdRes, thermoTemp);
+  delay(1000);
 
 }
